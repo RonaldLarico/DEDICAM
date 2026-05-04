@@ -15,10 +15,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../auth/enums/roles.enum';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Audit } from '../audit/audit.decorator';
 
 @Controller('users')
-@UseGuards(RolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+
 export class UserController {
+  
   constructor(private readonly userService: UserService) {}
 
   @Get()
@@ -41,6 +45,8 @@ export class UserController {
   }
 
   @Post()
+  @Roles(UserRole.SUPER_ADMIN)
+  @Audit('CREATE_USER')
   async create(
     @Body()
     body: CreateUserDto,
@@ -52,6 +58,7 @@ export class UserController {
 
   @Put(':id')
   @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
+  @Audit('UPDATE_USER')
   async update(
     @Param('id', ParseIntPipe)
     id: number,
@@ -66,6 +73,7 @@ export class UserController {
 
   @Delete(':id')
   @Roles(UserRole.SUPER_ADMIN)
+  @Audit('DELETE_USER')
   async remove(
     @Param('id', ParseIntPipe)
     id: number,

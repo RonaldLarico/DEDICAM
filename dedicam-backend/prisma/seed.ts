@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import bcrypt from 'bcrypt';
 import { PrismaPg } from '@prisma/adapter-pg';
 
-import { PrismaClient } from '../../generated/prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 const connectionString = process.env.DATABASE_URL!;
 
@@ -9,7 +12,7 @@ const adapter = new PrismaPg({
   connectionString,
 });
 
-const prisma = new PrismaClient({
+const prisma: PrismaClient = new PrismaClient({
   adapter,
 });
 

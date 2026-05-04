@@ -4,8 +4,8 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
+  //output   = "../generated/prisma"
 }
 
 datasource db {
@@ -36,6 +36,7 @@ model User {
   payments         Payment[]
   notifications    Notification[]
   collaborations   ProjectCollaborator[]
+  auditLogs        AuditLog[]
 }
 
 //////////////////////////////////////////////////////
@@ -329,6 +330,28 @@ model Notification {
   createdAt DateTime         @default(now())
   userId    Int
   user      User             @relation(fields: [userId], references: [id])
+}
+
+//////////////////////////////////////////////////////
+// AUDIT LOGS
+//////////////////////////////////////////////////////
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  action    String
+  entity    String
+  entityId  String?
+  method    String?
+  route     String?
+  ipAddress String?
+  userAgent String?
+  oldValues Json?
+  newValues Json?
+  createdAt DateTime @default(now())
+  userId    Int?
+  user      User?    @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
 }
 
 //////////////////////////////////////////////////////

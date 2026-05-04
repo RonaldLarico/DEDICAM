@@ -1,8 +1,8 @@
 import {
   CanActivate,
   ExecutionContext,
-  ForbiddenException,
   Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 
 import { Reflector } from '@nestjs/core';
@@ -13,7 +13,7 @@ import { UserRole } from '../enums/roles.enum';
 
 interface AuthRequest extends Request {
   user: {
-    id: string;
+    id: number;
     role: UserRole;
   };
 }
@@ -29,7 +29,7 @@ export class RolesGuard implements CanActivate {
     );
 
     // Si la ruta no requiere roles
-    if (!requiredRoles) {
+    if (!requiredRoles?.length) {
       return true;
     }
 
@@ -39,14 +39,14 @@ export class RolesGuard implements CanActivate {
 
     // Usuario no autenticado
     if (!user) {
-      throw new ForbiddenException('User not authenticated');
+      throw new UnauthorizedException('User not authenticated');
     }
 
     const hasRole = requiredRoles.includes(user.role);
 
     // Usuario sin permisos
     if (!hasRole) {
-      throw new ForbiddenException('Insufficient permissions');
+      throw new UnauthorizedException('Insufficient permissions');
     }
 
     return true;
