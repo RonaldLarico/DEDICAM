@@ -30,6 +30,8 @@ model User {
   settings         Json?
   createdAt        DateTime              @default(now())
   updatedAt        DateTime              @updatedAt
+  accounts         Account[]
+  sessions         Session[]
   projects         Project[]
   ownedAssets      Asset[]
   subscriptions    Subscription[]
@@ -37,6 +39,37 @@ model User {
   notifications    Notification[]
   collaborations   ProjectCollaborator[]
   auditLogs        AuditLog[]
+}
+
+//////////////////////////////////////////////////////
+// ACCOUNT
+//////////////////////////////////////////////////////
+model Account {
+  id                Int       @id @default(autoincrement())
+  userId            Int
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  providerAccountId String
+  provider          String // google | github | linkedin | x
+  accessToken       String?   @db.Text
+  refreshToken      String?   @db.Text
+  expiresAt         DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@unique([provider, providerAccountId])
+}
+
+//////////////////////////////////////////////////////
+// SESSION
+//////////////////////////////////////////////////////
+model Session {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshToken String   @db.Text
+  expiresAt    DateTime
+
+  createdAt DateTime @default(now())
 }
 
 //////////////////////////////////////////////////////

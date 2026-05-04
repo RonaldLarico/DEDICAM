@@ -7,6 +7,10 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { jwtConfigFactory } from './config/jwt.config';
+import { GoogleStrategy } from './strategies/google.strategy';
+import { GithubStrategy } from './strategies/githu.strategy';
+import { LinkedInStrategy } from './strategies/linkedin.strategy';
+import { XStrategy } from './strategies/x.strategy';
 
 @Module({
   imports: [
@@ -19,8 +23,16 @@ import { jwtConfigFactory } from './config/jwt.config';
     }),
   ],
 
+  providers: [
+    AuthService,
+    PrismaService,
+    GoogleStrategy,
+    GithubStrategy,
+    //LinkedInStrategy,
+    //XStrategy,
+    JwtStrategy,
+  ],
   controllers: [AuthController],
-  providers: [AuthService, PrismaService, JwtStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}
