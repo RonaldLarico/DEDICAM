@@ -29,7 +29,8 @@ export class AuthController {
 
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
-  async googleCallback(@Req() req: any) {
+  async googleCallback(@Req() req) {
+    console.log('CALLBACK HIT');
     return await this.oauthUseCase.execute({
       ...req.user,
       provider: 'google',
@@ -45,7 +46,7 @@ export class AuthController {
 
   @Get('github/callback')
   @UseGuards(GithubAuthGuard)
-  async githubCallback(@Req() req: any) {
+  async githubCallback(@Req() req) {
     return await this.oauthUseCase.execute({
       ...req.user,
       provider: 'github',
@@ -61,7 +62,7 @@ export class AuthController {
 
   @Get('linkedin/callback')
   @UseGuards(LinkedInAuthGuard)
-  async linkedinCallback(@Req() req: any) {
+  async linkedinCallback(@Req() req) {
     return await this.oauthUseCase.execute({
       ...req.user,
       provider: 'linkedin',
@@ -77,7 +78,7 @@ export class AuthController {
 
   @Get('x/callback')
   @UseGuards(XAuthGuard)
-  async xCallback(@Req() req: any) {
+  async xCallback(@Req() req) {
     return await this.oauthUseCase.execute({
       ...req.user,
       provider: 'x',

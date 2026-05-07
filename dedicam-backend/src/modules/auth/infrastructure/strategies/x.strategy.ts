@@ -10,12 +10,13 @@ export class XStrategy extends PassportStrategy(Strategy, 'x') {
       clientSecret: process.env.X_CLIENT_SECRET!,
       callbackURL: 'http://localhost:8000/auth/x/callback',
       clientType: 'confidential',
-      scope: ['tweet.read', 'users.read', 'offline.access'],
+      scope: ['email', 'profile'],
     });
   }
 
   async validate(accessToken: string, refreshToken: string, profile: any) {
     return {
+      provider: 'x',
       email: profile.emails?.[0]?.value || null,
       firstName: profile.username,
       lastName: '',

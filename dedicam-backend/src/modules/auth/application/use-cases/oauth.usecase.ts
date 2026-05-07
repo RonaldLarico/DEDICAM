@@ -1,8 +1,12 @@
-import { AuthRepository } from '../../domain/repositories/auth.repository';
+import { Inject, Injectable } from '@nestjs/common';
+import type { AuthRepository } from '../../domain/repositories/auth.repository';
 import { TokenService } from '../../infrastructure/services/token.service';
+import { AUTH_REPOSITORY } from '../../infrastructure/tokens/auth.tokens';
 
+@Injectable()
 export class OAuthUseCase {
   constructor(
+    @Inject(AUTH_REPOSITORY)
     private readonly authRepo: AuthRepository,
     private readonly tokenService: TokenService,
   ) {}

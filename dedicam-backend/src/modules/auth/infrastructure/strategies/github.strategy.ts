@@ -9,12 +9,13 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: 'http://localhost:8000/auth/github/callback',
-      scope: ['user:email'],
+      scope: ['user', 'profile'],
     });
   }
 
   async validate(accessToken: string, refreshToken: string, profile: any) {
     return {
+      provider: 'github',
       email: profile.emails[0].value,
       firstName: profile.username,
       lastName: '',

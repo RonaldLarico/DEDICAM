@@ -15,6 +15,7 @@ export class LinkedInStrategy extends PassportStrategy(Strategy, 'linkedin') {
 
   async validate(accessToken, refreshToken, profile: any) {
     return {
+      provider: 'linkedin',
       email: profile.emails?.[0]?.value,
       firstName: profile.name?.givenName,
       lastName: profile.name?.familyName,
