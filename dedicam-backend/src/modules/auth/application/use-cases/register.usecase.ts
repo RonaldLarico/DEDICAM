@@ -1,10 +1,12 @@
-import { AuthRepository } from '../../domain/repositories/auth.repository';
+import type { AuthRepository } from '../../domain/repositories/auth.repository';
 import { HashService } from '../../infrastructure/services/hash.service';
 import { TokenService } from '../../infrastructure/services/token.service';
-import { ConflictException } from '@nestjs/common';
+import { ConflictException, Inject } from '@nestjs/common';
+import { AUTH_REPOSITORY } from '../../infrastructure/tokens/auth.tokens';
 
 export class RegisterUseCase {
   constructor(
+    @Inject(AUTH_REPOSITORY)
     private readonly authRepo: AuthRepository,
     private readonly hashService: HashService,
     private readonly tokenService: TokenService,

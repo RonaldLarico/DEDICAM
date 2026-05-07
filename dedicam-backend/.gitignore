@@ -4,6 +4,7 @@
 /build
 /generated
 /prisma/migrations
+/prisma/seed.ts
 
 # Logs
 logs
